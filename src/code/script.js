@@ -2,6 +2,7 @@ const apiKey = "3e08a016cc5fe573b28074c7ebc7bd27";
 const apiUrl = "https://api.openweathermap.org/data/2.5/weather?&units=metric&q=";
 
 const searchBox = document.querySelector(".search input");
+const searchButton = document.getElementById('searchButton');
 const searchBtn = document.querySelector(".search button");
 const weatherIcon = document.querySelector(".weather-icon");
 async function checkWeather(city) {
@@ -16,7 +17,7 @@ async function checkWeather(city) {
         document.querySelector(".city").innerHTML = data.name;
         document.querySelector(".temp").innerHTML = Math.round(data.main.temp)+"°C";
         document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
-        document.querySelector(".wind").innerHTML = data.wind.speed + " m/s";
+        document.querySelector(".wind").innerHTML = Math.round(data.wind.speed*3.6) + " km/h";
     
         if (data.weather[0].main == "Clouds") {
             weatherIcon.src = "/src/img/clouds.png";
@@ -44,4 +45,12 @@ searchBtn.addEventListener('click', () => {
     checkWeather(searchBox.value);
 });
 
-
+searchBox.addEventListener('keypress', function(event) {
+    // Check if the key pressed is Enter (key code 13)
+    if (event.keyCode === 13) {
+        // Trigger the click event on the search button
+        
+        checkWeather(searchBox.value);
+        
+    }
+});
